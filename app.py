@@ -90,7 +90,7 @@ def del_documento(query: DocumentosBuscaUsuarioSchema):
         error_msg = "Erro ao deletar documento: " + repr(e)
         return {"message": error_msg}, 404
     
-@app.put('/documento', tags=[documento_tag], responses = retornos_documento_view())
+@app.post('/documento', tags=[documento_tag], responses = retornos_documento_view())
 def add_documento(form: DocumentoViewSchema):
     """
     Adiciona um novo documento à base
@@ -109,7 +109,7 @@ def add_documento(form: DocumentoViewSchema):
         error_msg = "Não foi possível adicionar o novo documento:" + repr(e)
         return {"message": error_msg}, 404
     
-@app.post('/documento', tags=[documento_tag], responses = retornos_documento_view())
+@app.put('/documento', tags=[documento_tag], responses = retornos_documento_view())
 def edit_documento(form: DocumentoEditSchema):
     """
     Edita um documento existente pelo seu id
