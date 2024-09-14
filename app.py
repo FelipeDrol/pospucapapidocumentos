@@ -21,8 +21,8 @@ documento_tag = Tag(name="Documento", description="Visualização, Adição, edi
 def get_todos_documentos():
     return Session().query(Documentos).all()
 
-def retornos_listagem_documentos():
-    return {"200": ListagemDocumentosSchema, "400": ErrorSchema, "404": ErrorSchema}
+def retornos_text_view():
+    return {"200": SucessSchema, "400": ErrorSchema, "404": ErrorSchema}
 
 def retornos_documento_view():
     return {"200": DocumentoViewSchema, "400": ErrorSchema, "404": ErrorSchema}
@@ -39,20 +39,6 @@ def home():
     Redireciona para /openapi, tela que permite a escolha do estilo de documentação.
     """
     return redirect('/openapi')
-    
-#Apis Documentos
-@app.get('/documentos', tags=[documento_tag], responses = retornos_listagem_documentos())
-def get_documentos():
-    """
-    Retorna todos os documentos cadastrados
-    """
-    try:
-        documentos = Session().query(Documentos).all()
-        return apresenta_documentos(documentos), 200
-    except Exception as e:
-        retorno_erro(e, "Não foi possível obter o documento", 400)
-        error_msg = "Erro ao buscar todos os documentos: " + repr(e)    
-        return {"message": error_msg}, 404
 
 @app.get('/documento', tags=[documento_tag], responses = retornos_documento_view())
 def get_documento(query: DocumentosBuscaUsuarioSchema):
@@ -68,7 +54,7 @@ def get_documento(query: DocumentosBuscaUsuarioSchema):
     except Exception as e:
         retorno_erro(e, "Erro ao obter documento por id", 400)
 
-@app.delete('/documento', tags=[documento_tag], responses = retornos_listagem_documentos())
+@app.delete('/documento', tags=[documento_tag], responses = retornos_text_view())
 def del_documento(query: DocumentosBuscaUsuarioSchema):
     """
     Deleta TODOS documento a partir do seu Email
@@ -82,15 +68,13 @@ def del_documento(query: DocumentosBuscaUsuarioSchema):
         if(documento):
             sqlQuery.delete()
             session.commit()
-            return apresenta_documentos([]), 200
+            return "Deletados com sucesso", 200
         else:
             return {"message": "Documento não localizado"}, 404
     except Exception as e:
         retorno_erro(e, "Não foi possível obter o documento")
-        error_msg = "Erro ao deletar documento: " + repr(e)
-        return {"message": error_msg}, 404
     
-@app.post('/documento', tags=[documento_tag], responses = retornos_documento_view())
+@app.post('/documento', tags=[documento_tag], responses = retornos_text_view())
 def add_documento(form: DocumentoViewSchema):
     """
     Adiciona um novo documento à base
@@ -103,13 +87,11 @@ def add_documento(form: DocumentoViewSchema):
         session.add(documento)
         session.commit()
 
-        return apresenta_documento(documento), 200
+        return "Adicionado com Sucesso", 200
     except Exception as e:
         retorno_erro(e, "Não foi possível obter o documento", 400)
-        error_msg = "Não foi possível adicionar o novo documento:" + repr(e)
-        return {"message": error_msg}, 404
     
-@app.put('/documento', tags=[documento_tag], responses = retornos_documento_view())
+@app.put('/documento', tags=[documento_tag], responses = retornos_text_view())
 def edit_documento(form: DocumentoEditSchema):
     """
     Edita um documento existente pelo seu id
@@ -127,7 +109,7 @@ def edit_documento(form: DocumentoEditSchema):
             documento.valorEscolha = form.valorEscolha
             session.commit()
 
-            return apresenta_documento(documento), 200
+            return "Editado com sucesso", 200
         else:
             return {"message": "Documento não localizado"}, 404
     except Exception as e:

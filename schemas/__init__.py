@@ -1,2 +1,2 @@
 from schemas.documentos import DocumentoEditSchema, DocumentoViewSchema, DocumentosBuscaUsuarioSchema, ListagemDocumentosSchema, DocumentoBuscaIdSchema, apresenta_documentos, apresenta_documento
-from schemas.error import ErrorSchema
+from schemas.error import ErrorSchema, SucessSchema
