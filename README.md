@@ -2,7 +2,7 @@
 
 MVP para Disciplina **Desenvolvimento Back-end Avançado** 
 
-![image](https://github.com/user-attachments/assets/0e5be97f-536c-420e-bdec-6266bb626256)
+![364550335-dd0d9c3d-becd-41f1-9a1d-dbc9e8c858de](https://github.com/user-attachments/assets/c4bc03d7-3b29-4c07-b4e2-e3724117be50)
 
 O objetivo aqui é ilustrar um exemplo de backend de um painel administrativo de um CMS que armazena os dados de um portal de envio de documentos. Guardando os anexos deste portal, assim como seus dados relacionados. Os anexos serao guardaos como base64. A chave para localizar os dados é o usuario.
 
